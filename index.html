@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/styles.css">
+    <title>Lista de Asistencia</title>
+</head>
+<body>
+    <header>
+        <h1>Lista de Asistencia</h1>
+        <div class="button-container">
+            <button onclick="showForm()" aria-label="Agregar nuevo estudiante">Agregar Estudiante</button>
+        </div>
+    </header>
+
+    <!-- Sección para la tabla de asistencia -->
+    <section id="attendanceTableSection">
+        <table id="attendanceTable">
+            <thead>
+                <tr>
+                    <th>Nombre Completo</th>
+                    <th>Cédula</th>
+                    <th>Correo</th>
+                    <th>Estado</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Las filas de estudiantes se agregarán aquí dinámicamente -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Formulario para agregar estudiante -->
+    <div id="formContainer" style="display: none;">
+        <h3 id="formTitle">Agregar Estudiante</h3>
+        <form id="studentForm" onsubmit="submitForm(event)">
+            <label for="name">Nombre Completo:</label>
+            <input type="text" id="name" name="name" required aria-describedby="nameHelp">
+            <small id="nameHelp">Escriba el nombre completo del estudiante.</small>
+
+            <label for="id">Cédula:</label>
+            <input type="text" id="id" name="id" required aria-describedby="idHelp">
+            <small id="idHelp">Ingrese la cédula del estudiante.</small>
+
+            <label for="email">Correo:</label>
+            <input type="email" id="email" name="email" required aria-describedby="emailHelp">
+            <small id="emailHelp">Correo electrónico válido.</small>
+
+            <label for="status">Estado:</label>
+            <select id="status" name="status" required>
+                <option value="Presente">Presente</option>
+                <option value="Ausente">Ausente</option>
+            </select>
+
+            <div class="form-actions">
+                <button type="submit">Guardar</button>
+                <button type="button" onclick="hideForm()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Notificación de cambio dinámico (usado con aria-live) -->
+    <div aria-live="assertive" id="notification" style="display: none;">
+        <p id="notificationMessage">Mensaje</p>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>
+
+
