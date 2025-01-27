@@ -16,7 +16,6 @@
       </div>
     </header>
 
-    
     <section id="attendanceTableSection">
       <table id="attendanceTable">
         <thead>
@@ -29,13 +28,10 @@
             <th>Acciones</th>
           </tr>
         </thead>
-        <tbody>
-        
-        </tbody>
+        <tbody></tbody>
       </table>
     </section>
 
-    
     <div id="formContainer" style="display: none">
       <h3 id="formTitle">Agregar Estudiante</h3>
       <form id="studentForm" onsubmit="submitForm(event)">
@@ -82,13 +78,11 @@
       </form>
     </div>
 
-    
     <div aria-live="assertive" id="notification" style="display: none">
       <p id="notificationMessage">Mensaje</p>
     </div>
 
-    
-    <div id="studentDetails" style="display: none;">
+    <div id="studentDetails" style="display: none">
       <h3>Detalles del Estudiante</h3>
       <p><strong>Nombre Completo:</strong> <span id="detailName"></span></p>
       <p><strong>Cédula:</strong> <span id="detailId"></span></p>
@@ -97,7 +91,7 @@
       <p><strong>Fecha:</strong> <span id="detailDate"></span></p>
       <button onclick="hideDetails()">Cerrar</button>
     </div>
-    
+
     <script src="./script.js"></script>
   </body>
 </html>
