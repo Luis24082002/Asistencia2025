@@ -1,57 +1,59 @@
-const table = document.getElementById('attendanceTable').getElementsByTagName('tbody')[0];
+const table = document
+  .getElementById("attendanceTable")
+  .getElementsByTagName("tbody")[0];
 let editingRow = null;
 
-
 window.onload = () => {
-  const savedData = JSON.parse(localStorage.getItem('attendanceData')) || [];
-  savedData.forEach(data => addRowToTable(data));
+  const savedData = JSON.parse(localStorage.getItem("attendanceData")) || [];
+  savedData.forEach((data) => addRowToTable(data));
 };
 
 function showForm(isEditing = false, row = null) {
-  document.getElementById('formContainer').style.display = 'block';
+  document.getElementById("formContainer").style.display = "block";
+  document.getElementById("formContainer").setAttribute("aria-hidden", "false");
   if (isEditing && row) {
     editingRow = row;
-    document.getElementById('formTitle').textContent = 'Actualizar Estudiante';
-    document.getElementById('name').value = row.cells[0].textContent;
-    document.getElementById('id').value = row.cells[1].textContent;
-    document.getElementById('email').value = row.cells[2].textContent;
-    document.getElementById('status').value = row.cells[3].textContent;
+    document.getElementById("formTitle").textContent = "Actualizar Estudiante";
+    document.getElementById("name").value = row.cells[0].textContent;
+    document.getElementById("id").value = row.cells[1].textContent;
+    document.getElementById("email").value = row.cells[2].textContent;
+    document.getElementById("status").value = row.cells[3].textContent;
   } else {
-    document.getElementById('formTitle').textContent = 'Agregar Estudiante';
-    document.getElementById('studentForm').reset();
+    document.getElementById("formTitle").textContent = "Agregar Estudiante";
+    document.getElementById("studentForm").reset();
     editingRow = null;
   }
+
+  document.getElementById("name").focus();
 }
 
 function hideForm() {
-  document.getElementById('formContainer').style.display = 'none';
-  document.getElementById('studentForm').reset();
+  document.getElementById("formContainer").style.display = "none";
+  document.getElementById("formContainer").setAttribute("aria-hidden", "true");
+  document.getElementById("studentForm").reset();
   editingRow = null;
 }
 
 function submitForm(event) {
   event.preventDefault();
 
-  const name = document.getElementById('name').value;
-  const id = document.getElementById('id').value;
-  const email = document.getElementById('email').value;
-  const status = document.getElementById('status').value;
+  const name = document.getElementById("name").value;
+  const id = document.getElementById("id").value;
+  const email = document.getElementById("email").value;
+  const status = document.getElementById("status").value;
   const date = new Date().toLocaleDateString();
 
   const studentData = { name, id, email, status, date };
 
   if (editingRow) {
-    
     editingRow.cells[0].textContent = name;
     editingRow.cells[1].textContent = id;
     editingRow.cells[2].textContent = email;
     editingRow.cells[3].textContent = status;
 
-    
-    saveToLocalStorage()
+    saveToLocalStorage();
     showNotification(`Información de ${name} actualizada con éxito.`);
   } else {
-    
     addRowToTable(studentData);
     showNotification(`Estudiante ${name} agregado con éxito.`);
   }
@@ -76,22 +78,27 @@ function addRowToTable(data) {
   statusCell.textContent = data.status;
   dateCell.textContent = data.date;
 
-  const deleteButton = document.createElement('button');
-  deleteButton.textContent = 'Eliminar';
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "Eliminar";
   deleteButton.onclick = () => {
     table.deleteRow(newRow.rowIndex - 1);
     saveToLocalStorage();
     showNotification(`${data.name} eliminado con éxito.`);
   };
+  deleteButton.setAttribute("aria-label", `Eliminar a ${data.name}`);
 
-  const updateButton = document.createElement('button');
-  updateButton.textContent = 'Actualizar';
+  const updateButton = document.createElement("button");
+  updateButton.textContent = "Actualizar";
   updateButton.onclick = () => showForm(true, newRow);
+  updateButton.setAttribute(
+    "aria-label",
+    `Actualizar la información de ${data.name}`
+  );
 
-
-  const detailsButton = document.createElement('button');
-  detailsButton.textContent = 'Detalles';
+  const detailsButton = document.createElement("button");
+  detailsButton.textContent = "Detalles";
   detailsButton.onclick = () => showDetails(data);
+  detailsButton.setAttribute("aria-label", `Ver detalles de ${data.name}`);
 
   actionCell.appendChild(deleteButton);
   actionCell.appendChild(updateButton);
@@ -99,7 +106,7 @@ function addRowToTable(data) {
 }
 
 function saveToLocalStorage() {
-  const rows = Array.from(table.rows).map(row => ({
+  const rows = Array.from(table.rows).map((row) => ({
     name: row.cells[0].textContent,
     id: row.cells[1].textContent,
     email: row.cells[2].textContent,
@@ -107,42 +114,39 @@ function saveToLocalStorage() {
     date: row.cells[4].textContent,
   }));
 
-  localStorage.setItem('attendanceData', JSON.stringify(rows));
+  localStorage.setItem("attendanceData", JSON.stringify(rows));
 }
 
-
 function showNotification(message) {
-  const notification = document.getElementById('notification');
-  const notificationMessage = document.getElementById('notificationMessage');
+  const notification = document.getElementById("notification");
+  const notificationMessage = document.getElementById("notificationMessage");
 
   notificationMessage.textContent = message;
-  notification.style.display = 'block'; 
+  notification.style.display = "block";
 
-  
+  notification.setAttribute("aria-live", "assertive");
+
   setTimeout(() => {
-    notification.style.display = 'none';
+    notification.style.display = "none";
   }, 3000);
 }
 
-
 function showDetails(data) {
-  document.getElementById('detailName').textContent = data.name;
-  document.getElementById('detailId').textContent = data.id;
-  document.getElementById('detailEmail').textContent = data.email;
-  document.getElementById('detailStatus').textContent = data.status;
-  document.getElementById('detailDate').textContent = data.date;
+  document.getElementById("detailName").textContent = data.name;
+  document.getElementById("detailId").textContent = data.id;
+  document.getElementById("detailEmail").textContent = data.email;
+  document.getElementById("detailStatus").textContent = data.status;
+  document.getElementById("detailDate").textContent = data.date;
 
-  document.getElementById('studentDetails').style.display = 'block';
+  document.getElementById("studentDetails").style.display = "block";
+  document
+    .getElementById("studentDetails")
+    .setAttribute("aria-hidden", "false");
+
+  document.getElementById("studentDetails").querySelector("button").focus();
 }
-
 
 function hideDetails() {
-  document.getElementById('studentDetails').style.display = 'none';
+  document.getElementById("studentDetails").style.display = "none";
+  document.getElementById("studentDetails").setAttribute("aria-hidden", "true");
 }
-
-
-
-
-
-        
-  
